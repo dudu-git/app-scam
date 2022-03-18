@@ -142,7 +142,7 @@ export function ContractScam(){
           <button className="btnMetaMaskTransfer" onClick={transferWallet}> {'Transfer' }  🦊  </button>
         </div>
 
-        <div className="column side">
+        <div className="column side"> 
           <h2>Contract Scam</h2>
           <form action="">
             <p>Scam contract</p>
